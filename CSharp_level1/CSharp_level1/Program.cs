@@ -1,4 +1,4 @@
-﻿// Чернышов Виктор. Урок 2
+﻿// Чернышов Виктор. Урок 3
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,89 +7,124 @@ using System.Threading.Tasks;
 
 namespace CSharp_level1
 {
+    class Complex
+    {
+        // Все методы и поля публичные. Мы можем получить доступ к ним из другого класса.
+        public double im;
+        public double re;
+
+        public Complex Plus(Complex x2)
+        {
+            Complex x3 = new Complex();
+            x3.im = x2.im + this.im;
+            x3.re = x2.re + this.re;
+            return x3;
+        }
+        public Complex Sub(Complex x2)
+        {
+            Complex x3 = new Complex();
+            x3.im = x2.im - this.im;
+            x3.re = x2.re - this.re;
+            return x3;
+        }
+        public Complex Multi(Complex x2)
+        {
+            Complex x3 = new Complex();
+            x3.im = x2.im - this.im;
+            x3.re = x2.re - this.re;
+            x3.im = this.re * x2.im + this.im * x2.re;
+            x3.re = this.re * x2.re - this.im * x2.im;
+
+            return x3;
+        }
+        public string ToString()
+        {
+            return re + "+" + im + "i";
+        }
+    }
+
     class Program
     {
+        struct Complex
+        {
+            public double im;
+            public double re;
+            public Complex Plus(Complex x)
+            {
+                Complex y;
+                y.im = im + x.im;
+                y.re = re + x.re;
+                return y;
+            }
+            public Complex Sub(Complex x)
+            {
+                Complex y;
+                y.im = im - x.im;
+                y.re = re - x.re;
+                return y;
+            }
+            public Complex Multi(Complex x)
+            {
+                Complex y;
+                y.im = re * x.im + im * x.re;
+                y.re = re * x.re - im * x.im;
+                return y;
+            }
+            public string ToString()
+            {
+                return re + "+" + im + "i";
+            }
+        }
+
         static void Task1()
         {
-            // Написать метод, возвращающий минимальное из трёх чисел.
-            Console.Write("Введите первое число: ");
-            int a = int.Parse(Console.ReadLine());
-            Console.Write("Введите второе число: ");
-            int b = int.Parse(Console.ReadLine());
-            Console.Write("Введите третье число: ");
-            int c = int.Parse(Console.ReadLine());
-            int min;
-            if (a < b) min = a < c ? a : c;
-            else min = b < c ? b : c;
-            Console.WriteLine($"Минимальным из этих трех чисел является: {min}");
-        }
-        static void Task2()
-        {
-            // Написать метод подсчета количества цифр числа.
-            Console.Write("Введите число: ");
-            int n = int.Parse(Console.ReadLine());
-            int count = 0;
-            while (n != 0)
+            /* а) Дописать структуру Complex, добавив метод вычитания комплексных чисел. Продемонстрировать работу структуры.
+             * б) Дописать класс Complex, добавив методы вычитания и произведения чисел. Проверить работу класса.
+             * в) Добавить диалог с использованием switch демонстрирующий работу класса. */
+            Console.WriteLine("Работа структуры");
+            Complex complex1;
+            complex1.re = 1;
+            complex1.im = 1;
+            Complex complex2;
+            complex2.re = 2;
+            complex2.im = 2;
+            Complex result = complex1.Plus(complex2);
+            Console.WriteLine(result.ToString());
+            result = complex1.Multi(complex2);
+            Console.WriteLine(result.ToString());
+            result = complex1.Sub(complex2);
+            Console.WriteLine(result.ToString());
+
+            Console.WriteLine("Работа класса\nВведите 1 - для того, чтобы получить сумму двух чисел\nВведите 2 - для того, чтобы получить произведение двух чисел\nВведите 3 - для того, чтобы получить разность двух чисел\n");
+            Complex complex12 = new Complex();
+            complex12.re = 1;
+            complex12.im = 1;
+
+            Complex complex22 = new Complex();
+            complex22.re = 2;
+            complex22.im = 2;
+
+            Complex result2;
+            switch (int.Parse(Console.ReadLine()))
             {
-                n /= 10;
-                count++;
+                case 1:
+                    result2 = complex12.Plus(complex22);
+                    Console.WriteLine(result2.ToString());
+                    break;
+                case 2:
+                    result2 = complex12.Multi(complex22);
+                    Console.WriteLine(result2.ToString());
+                    break;
+                case 3:
+                    result2 = complex12.Sub(complex22);
+                    Console.WriteLine(result2.ToString());
+                    break;
             }
-            Console.WriteLine($"Количество цифр: {count}");
         }
-        static void Task3()
-        {
-            /* С клавиатуры вводятся числа, пока не будет введен 0. Подсчитать сумму всех нечётных
-             * положительных чисел. */
-            int sum = 0;
-            int n = 0;
-            do
-            {
-                Console.Write("Введите число: ");
-                n = int.Parse(Console.ReadLine());
-                if (n > 0 && n % 2 != 0) sum += n;
-            }
-            while (n != 0);
-            Console.WriteLine("Сумм всех нечётных положительных чисел равна: " + sum);
-        }
-        static bool Task4()
-        {
-            /* Реализовать метод проверки логина и пароля. На вход метода подается логин и пароль. На
-             * выходе истина, если прошел авторизацию, и ложь, если не прошел (Логин: root, Password:
-             * GeekBrains). Используя метод проверки логина и пароля, написать программу: пользователь
-             * вводит логин и пароль, программа пропускает его дальше или не пропускает. С помощью
-             * цикла do while ограничить ввод пароля тремя попытками. */
-            int count = 0;
-            Console.WriteLine("Требуется авторизация");
-            do
-            {
-                Console.Write("Логин: ");
-                string log = Console.ReadLine();
-                Console.Write("Пароль: ");
-                string pas = Console.ReadLine();
-                if (log == "root" && pas == "GeekBrains") return true;
-                Console.WriteLine("Отказано в доступе");
-                count++;
-            }
-            while (count < 3);
-            return false;
-        }
-        static int Task7(int a, int b)
-        {
-            /* a) Разработать рекурсивный метод, который выводит на экран числа от a до b(a<b).
-             * б) *Разработать рекурсивный метод, который считает сумму чисел от a до b. */
-            Console.Write(a + " ");
-            if (a < b) a += Task7(a + 1, b);
-            return a;
-        }
+
         static void Main(string[] args)
         {
-            // Task1();
-            // Task2();
-            // Task3();
-            // if (Task4()) Console.WriteLine("Авторизация прошла успешно");
-            int a = 1;
-            int b = 5;
-            Console.WriteLine($"\nСумма чисел от {a} до {b} равна {Task7(a, b)}");
+            Task1();
 
             Console.ReadLine();
         }
