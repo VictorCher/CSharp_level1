@@ -42,7 +42,57 @@ namespace CSharp_level1
             return re + "+" + im + "i";
         }
     }
+    class Rational
+    {
+        int numerator=0;
+        int denominator=1;
+        string s;
+        public Rational(int numerator, int denominator)
+        {
+            this.numerator = numerator;
+            this.denominator = denominator;
+            this.s =  (numerator + "/" + denominator);
+            Console.WriteLine("Вы ввели дробное число: " + s);
+        }
+        public Rational()
+        {
+            Console.Write("Результат: ");
+        }
+        public void Add(Rational value1, Rational value2)
+        {
+            int denominator;
+            int numerator;
+            if (value1.denominator != value2.denominator)
+            {
+                denominator = value1.denominator * value2.denominator;
+                numerator = (value1.numerator * value2.denominator) + (value2.numerator * value1.denominator);
+            }
+            else
+            {
+                denominator = value1.denominator;
+                numerator = value1.numerator + value2.numerator;
+            }
 
+            for (int i = (numerator<denominator)? numerator: denominator; i > 1; i--)
+            {
+                if(numerator%i==0 && denominator % i == 0)
+                {
+                    numerator /= i;
+                    denominator /= i;
+                    break;
+                }
+            }
+            if(numerator==denominator) Console.WriteLine(value1.s + " + " + value2.s + " = " + numerator);
+            else if (numerator > denominator)
+            {
+                int integer = numerator / denominator;
+                numerator -= integer*denominator;
+                if(numerator==0) Console.WriteLine(value1.s + " + " + value2.s + " = " + integer);
+                else Console.WriteLine(value1.s + " + " + value2.s + " = " + integer + " " + numerator + '/' + denominator);
+            }
+            else Console.WriteLine(value1.s + " + " + value2.s + " = " + numerator + '/' + denominator);
+        }
+    }
     class Program
     {
         struct Complex
@@ -121,10 +171,49 @@ namespace CSharp_level1
                     break;
             }
         }
+        static void Task2()
+        {
+            /* а) С клавиатуры вводятся числа, пока не будет введён 0 (каждое число в новой строке).
+             * Требуется подсчитать сумму всех нечётных положительных чисел. Сами числа и сумму
+             * вывести на экран, используя tryParse. */
 
+            int sum = 0;
+            while(true)
+            {
+                int n;
+                Console.Write("Введите число: ");
+                bool flag = int.TryParse(Console.ReadLine(), out n);
+                if(flag == true)
+                {
+                    if (n == 0) break;
+                    else if (n % 2 != 0 && n > 0) sum+=n;
+                }
+                else Console.WriteLine("Некорректное значение!");
+            }
+            Console.WriteLine("Сумма чисел равна: " + sum);
+        }
+        static void Task3()
+        {
+            Console.Write("Введите числитель: ");
+            int x1 = int.Parse(Console.ReadLine());
+            Console.Write("Введите знаменатель: ");
+            int y1 = int.Parse(Console.ReadLine());
+            Rational a = new Rational(x1,y1);
+
+            Console.Write("Введите числитель: ");
+            int x2 = int.Parse(Console.ReadLine());
+            Console.Write("Введите знаменатель: ");
+            int y2 = int.Parse(Console.ReadLine());
+            Rational b = new Rational(x2, y2);
+
+            Rational summ = new Rational();
+            summ.Add(a, b);
+        }
         static void Main(string[] args)
         {
-            Task1();
+            // Task1();
+            // Task2();
+            Task3();
 
             Console.ReadLine();
         }
