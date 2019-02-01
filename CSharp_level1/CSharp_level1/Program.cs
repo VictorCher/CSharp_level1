@@ -45,11 +45,17 @@ namespace CSharp_level1
             return valid;
         }
 
+        static void Task3()
+        {
+            StaticClass.GenMas();
+            StaticClass.Print(StaticClass.ReadMas());
+            StaticClass.Pair(StaticClass.ReadMas());
+        }
+
         static void Main(string[] args)
         {
-            //Task3();
+            Task3();
             //Task4();
-            StaticClass.ReadMas();
 
             Console.ReadLine();
         }

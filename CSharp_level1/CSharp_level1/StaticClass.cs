@@ -48,14 +48,24 @@ namespace CSharp_level1
         /// Находит и выводит количество пар элементов массива, в которых только одно число делится на 3
         /// </summary>
         /// <param name="mas"></param>
-        static void Pair(int[] mas)
+        public static void Pair(int[] mas)
         {
             int count = 0;
             for(int i = 0; i < sizeMas - 1; i++)
             {
-                if (mas[i] % 3 == 0 && mas[i + 1] % 3 != 0) count++;
+                if ((mas[i] % 3 == 0 ^ mas[i + 1] % 3 != 0) != true) count++;
             }
             Console.WriteLine("Количество пар: " + count);
+        }
+
+        /// <summary>
+        /// Выводит значения в массиве на экран
+        /// </summary>
+        /// <param name="mas"></param>
+        public static void Print(int[] mas)
+        {
+            foreach(int i in mas)
+                Console.WriteLine(i);
         }
     }
 }
