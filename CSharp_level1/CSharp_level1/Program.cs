@@ -1,55 +1,56 @@
-﻿// Чернышов Виктор. Урок 4
+﻿// Чернышов Виктор. Урок 5
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace CSharp_level1
 {
     class Program
     {
-        public struct Account
+        static void Task1()
         {
-            string Login;
-            string Password;
-            public Account(string log, string pas)
-            {
-                this.Login = log;
-                this.Password = pas;
-            }
+            /* Создать программу, которая будет проверять корректность ввода логина.Корректным
+             * логином будет строка от 2 до 10 символов, содержащая только буквы латинского алфавита
+             * или цифры, при этом цифра не может быть первой без использования регулярных выражений */
+
+            bool flag = false;
+            Console.Write("Введите логин: ");
+            string login = Console.ReadLine();
+            string correctChar = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            if (Char.IsDigit(login[0])) goto result;
+            if (login.Length < 2 || login.Length > 10) goto result;
+            foreach (char c in login)
+                if (correctChar.IndexOf(c) == -1) goto result;
+            flag = true;
+        result:
+            if (flag) Console.WriteLine("Всё хорошо");
+            else Console.WriteLine("Всё плохо");
         }
-        static bool Task4()
+        static void Task2()
         {
-            /* Реализовать метод проверки логина и пароля. На вход метода подается логин и пароль. На
-             * выходе истина, если прошел авторизацию, и ложь, если не прошел (Логин: root, Password:
-             * GeekBrains). Используя метод проверки логина и пароля, написать программу: пользователь
-             * вводит логин и пароль, программа пропускает его дальше или не пропускает. С помощью
-             * цикла do while ограничить ввод пароля тремя попытками. Решить задачу, считывая логин и пароль
-             * из файла в массив. Создать структуру Account, содержащую Login и Password.*/
-            Console.Write("Авторизация...");
-            StreamReader file = new StreamReader("data.txt");
-            string[] mas = new string[2];     
-            bool valid = false;
-            mas[0] = file.ReadLine();
-            mas[1] = file.ReadLine();
-            if (mas[0] == "root" && mas[1] == "GeekBrains")
-            {
-                valid = true;
-                Console.WriteLine(" прошла успешно!");
-            }
-            else Console.WriteLine(" отказано в доступе!");
-            file.Close();
-            Account structure = new Account(mas[0], mas[1]);
-            return valid;
+            /* Разработать статический класс Message , содержащий следующие статические методы для
+             * обработки текста:
+             * а) Вывести только те слова сообщения, которые содержат не более n букв.
+             * б) Удалить из сообщения все слова, которые заканчиваются на заданный символ.
+             * в) Найти самое длинное слово сообщения.
+             * г) Сформировать строку с помощью StringBuilder из самых длинных слов сообщения.
+             * д) ***Создать метод, который производит частотный анализ текста. В качестве параметра в
+             * него передается массив слов и текст, в качестве результата метод возвращает сколько раз
+             * каждое из слов массива входит в этот текст. Здесь требуется использовать класс Dictionary */
+
+            Console.Write("Введите текст: ");
+            string userInput = Console.ReadLine();
+            Message.Short(userInput, 4);
         }
 
         static void Main(string[] args)
         {
-            //Task3();
-            //Task4();
-            StaticClass.ReadMas();
+            //Task1();
+            Task2();
 
             Console.ReadLine();
         }
