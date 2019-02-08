@@ -44,13 +44,31 @@ namespace CSharp_level1
 
             Console.Write("Введите текст: ");
             string userInput = Console.ReadLine();
-            Message.Short(userInput, 4);
+            //Message.Short(userInput, 4);
+            //Message.FilterEnd(userInput, 'а');
+            //Message.Long(userInput);
+            //Message.Bild(userInput);
+            Message.Analyz(userInput);
+        }
+        static void Task3()
+        {
+            /* Для двух строк написать метод, определяющий, является ли одна строка перестановкой
+             * другой.
+             * Например: badc являются перестановкой abcd. */
+
+            Console.Write("Введите текст 1: ");
+            string userInput1 = Console.ReadLine();
+            Console.Write("Введите текст 2: ");
+            string userInput2 = Console.ReadLine();
+            String temp = new String(userInput2.Reverse().ToArray());
+            Console.WriteLine(String.Compare(userInput1, temp) == 0);
         }
 
         static void Main(string[] args)
         {
             //Task1();
-            Task2();
+            //Task2();
+            //Task3();
 
             Console.ReadLine();
         }
