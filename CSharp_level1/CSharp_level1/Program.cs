@@ -1,4 +1,4 @@
-﻿// Чернышов Виктор. Урок 5
+﻿// Чернышов Виктор. Урок 6
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -10,65 +10,55 @@ using System.Text.RegularExpressions;
 namespace CSharp_level1
 {
     class Program
-    {
-        static void Task1()
-        {
-            /* Создать программу, которая будет проверять корректность ввода логина.Корректным
-             * логином будет строка от 2 до 10 символов, содержащая только буквы латинского алфавита
-             * или цифры, при этом цифра не может быть первой без использования регулярных выражений */
-
-            bool flag = false;
-            Console.Write("Введите логин: ");
-            string login = Console.ReadLine();
-            string correctChar = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            if (Char.IsDigit(login[0])) goto result;
-            if (login.Length < 2 || login.Length > 10) goto result;
-            foreach (char c in login)
-                if (correctChar.IndexOf(c) == -1) goto result;
-            flag = true;
-        result:
-            if (flag) Console.WriteLine("Всё хорошо");
-            else Console.WriteLine("Всё плохо");
-        }
-        static void Task2()
-        {
-            /* Разработать статический класс Message , содержащий следующие статические методы для
-             * обработки текста:
-             * а) Вывести только те слова сообщения, которые содержат не более n букв.
-             * б) Удалить из сообщения все слова, которые заканчиваются на заданный символ.
-             * в) Найти самое длинное слово сообщения.
-             * г) Сформировать строку с помощью StringBuilder из самых длинных слов сообщения.
-             * д) ***Создать метод, который производит частотный анализ текста. В качестве параметра в
-             * него передается массив слов и текст, в качестве результата метод возвращает сколько раз
-             * каждое из слов массива входит в этот текст. Здесь требуется использовать класс Dictionary */
-
-            Console.Write("Введите текст: ");
-            string userInput = Console.ReadLine();
-            //Message.Short(userInput, 4);
-            //Message.FilterEnd(userInput, 'а');
-            //Message.Long(userInput);
-            //Message.Bild(userInput);
-            Message.Analyz(userInput);
-        }
+    {     
         static void Task3()
         {
-            /* Для двух строк написать метод, определяющий, является ли одна строка перестановкой
-             * другой.
-             * Например: badc являются перестановкой abcd. */
+            /* Переделать программу Пример использования коллекций для решения следующих задач:
+             * а) Подсчитать количество студентов учащихся на 5 и 6 курсах;
+             * б) подсчитать сколько студентов в возрасте от 18 до 20 лет на каком курсе учатся (*частотный массив);
+             * в) отсортировать список по возрасту студента;
+             * г) *отсортировать список по курсу и возрасту студента; */
 
-            Console.Write("Введите текст 1: ");
-            string userInput1 = Console.ReadLine();
-            Console.Write("Введите текст 2: ");
-            string userInput2 = Console.ReadLine();
-            String temp = new String(userInput2.Reverse().ToArray());
-            Console.WriteLine(String.Compare(userInput1, temp) == 0);
+            Student.Creator();
+            int magistr = 0;
+            int[] course = new int[6];
+            List<Student> list = new List<Student>();
+            // Создаем список студентов
+            //DateTime dt = DateTime.Now;
+            StreamReader sr = new StreamReader("students.csv");
+            while (!sr.EndOfStream)
+            {
+                try
+                {
+                    string[] s = sr.ReadLine().Split(';');
+                    // Добавляем в список новый экземпляр класса Student
+                    list.Add(new Student(s[0], s[1], s[2], s[3], s[4], int.Parse(s[5]), int.Parse(s[6]), int.Parse(s[7]), s[8]));
+                    // Одновременно подсчитываем количество магистров
+                    if (int.Parse(s[6]) >= 5) magistr++;
+                    // Одновременно подсчитываем количество студентов в возрасте от 18 до 20 на разных курсах
+                    if (int.Parse(s[5]) >= 18 && int.Parse(s[5]) <= 20) course[int.Parse(s[6])]++;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Ошибка!ESC - прекратить выполнение программы" );
+                    // Выход из Main
+                    if (Console.ReadKey().Key == ConsoleKey.Escape) return;
+                }
+            }
+            sr.Close();
+            Console.WriteLine("Количество студентов учащихся на 5 и 6 курсах: " + magistr);
+            Console.WriteLine("Количество студентов в возрасте от 18 до 20 лет на каком курсе учатся:");
+            for (int c = 0; c < course.Length; c++) Console.WriteLine($"Курс {c+1} = {course[c]} чел.");
+
+            StudentComparer<Student> cp = new StudentComparer<Student>();
+            list.Sort(cp);
+            foreach (var v in list) Console.WriteLine($"{v.lastName} {v.firstName} {v.university} {v.faculty} {v.course} {v.department} {v.group} {v.city} {v.age}");
         }
 
         static void Main(string[] args)
         {
-            //Task1();
-            //Task2();
-            //Task3();
+            Task3();
 
             Console.ReadLine();
         }
