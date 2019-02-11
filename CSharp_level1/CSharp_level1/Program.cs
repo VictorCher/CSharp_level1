@@ -30,8 +30,25 @@ namespace CSharp_level1
              * б) *Переделать функцию Load, чтобы она возвращала массив считанных значений. Пусть она
              * возвращает минимум через параметр (с использованием модификатора out). */
 
-            FuncMin.SaveFunc("data.bin", -100, 100, 0.5);
-            Console.WriteLine(FuncMin.Load("data.bin"));
+            Console.WriteLine("Выберите номер функции для вычисления:");
+            Console.WriteLine("1 - f(x) = x * x - 50 * x + 10"); 
+            Console.WriteLine("2 - f(x) = 2 * x");
+            Console.WriteLine("3 - f(x) = x ^ 2");
+            Console.WriteLine("4 - f(x) = x + 5");
+            F[] menu = { FuncMin.F1, FuncMin.F2, FuncMin.F3, FuncMin.F4 };
+            F myFunc = menu[int.Parse(Console.ReadLine())-1];
+            Console.WriteLine("Укажите на каком отрезке находить минимум");
+            Console.Write("начало: ");
+            double start = double.Parse(Console.ReadLine());
+            Console.Write("конец: ");
+            double end = double.Parse(Console.ReadLine());
+            Console.Write("Укажите с каким шагом осуществлять подстановку в функцию: ");
+            double step = double.Parse(Console.ReadLine());
+
+            double min;
+            FuncMin.SaveFunc("data.bin", myFunc, start, end, step);
+            FuncMin.Load("data.bin", out min);
+            Console.WriteLine("Минимальное значение: " + min);
         }
         static void Task3()
         {
