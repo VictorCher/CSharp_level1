@@ -11,6 +11,28 @@ namespace CSharp_level1
 {
     class Program
     {     
+        static void Task1()
+        {
+            /* Изменить программу вывода таблицы функции так, чтобы можно было передавать функции
+             * типа double (double, double). Продемонстрировать работу на функции с функцией a*x^2 и
+             * функцией a*sin(x). */
+
+            Table.PrintTable(delegate (double a, double x) { return a * x * x; }, 2, 0, 3);
+            Table.PrintTable(delegate (double a, double x) { return a * Math.Sin(x); }, 2, 0, 3);
+        }
+        static void Task2()
+        {
+            /* Модифицировать программу нахождения минимума функции так, чтобы можно было
+             * передавать функцию в виде делегата.
+             * а) Сделать меню с различными функциями и представить пользователю выбор, для какой
+             * функции и на каком отрезке находить минимум. Использовать массив (или список) делегатов,
+             * в котором хранятся различные функции.
+             * б) *Переделать функцию Load, чтобы она возвращала массив считанных значений. Пусть она
+             * возвращает минимум через параметр (с использованием модификатора out). */
+
+            FuncMin.SaveFunc("data.bin", -100, 100, 0.5);
+            Console.WriteLine(FuncMin.Load("data.bin"));
+        }
         static void Task3()
         {
             /* Переделать программу Пример использования коллекций для решения следующих задач:
@@ -21,7 +43,7 @@ namespace CSharp_level1
 
             Student.Creator();
             int magistr = 0;
-            int[] course = new int[6];
+            int[] course = new int[7];
             List<Student> list = new List<Student>();
             // Создаем список студентов
             //DateTime dt = DateTime.Now;
@@ -49,16 +71,21 @@ namespace CSharp_level1
             sr.Close();
             Console.WriteLine("Количество студентов учащихся на 5 и 6 курсах: " + magistr);
             Console.WriteLine("Количество студентов в возрасте от 18 до 20 лет на каком курсе учатся:");
-            for (int c = 0; c < course.Length; c++) Console.WriteLine($"Курс {c+1} = {course[c]} чел.");
+            for (int c = 1; c < course.Length; c++) Console.WriteLine($"Курс {c} = {course[c]} чел.");
 
             StudentComparer<Student> cp = new StudentComparer<Student>();
-            list.Sort(cp);
-            foreach (var v in list) Console.WriteLine($"{v.lastName} {v.firstName} {v.university} {v.faculty} {v.course} {v.department} {v.group} {v.city} {v.age}");
+            list.Sort(cp.CompareAge);
+            list.Sort(cp.CompareCourse);
+            foreach (var v in list)
+                Console.WriteLine($"{v.firstName, 9} {v.lastName, 9} {v.university, 4}" +
+                $" {v.faculty, 5} {v.department,5} {v.age, 2} {v.course, 2} {v.group, 5} {v.city, 6} ");
         }
 
         static void Main(string[] args)
         {
-            Task3();
+            //Task1();
+            Task2();
+            //Task3();
 
             Console.ReadLine();
         }
