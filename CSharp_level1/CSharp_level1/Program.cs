@@ -10,7 +10,7 @@ namespace CSharp_level1
 {
     class Program
     {
-        static Form Form1 = new Form();
+        static Form Form2 = new Form();
         static TextBox tb = new TextBox();
         static NumericUpDown ud = new NumericUpDown();
 
@@ -37,17 +37,23 @@ namespace CSharp_level1
         /// </summary>
         static void Task2()
         {
-            Form1.Controls.Add(tb);
-            Form1.Controls.Add(ud);
+            Form2.Controls.Add(tb);
+            Form2.Controls.Add(ud);
             ud.Top = 20;
             ud.Click += new EventHandler(NumUpDown_Clik);
-            Application.Run(Form1);
+            Application.Run(Form2);
         }
-
+        static void Task3()
+        {
+            Form3 form = new Form3();
+            Application.Run(form);
+            
+        }
         public static void Main()
         {
             //Task1();
-            Task2();
+            //Task2();
+            Task3();
         }
     }
 }
