@@ -10,6 +10,15 @@ namespace CSharp_level1
 {
     class Program
     {
+        static Form Form1 = new Form();
+        static TextBox tb = new TextBox();
+        static NumericUpDown ud = new NumericUpDown();
+
+        static void NumUpDown_Clik(object sender, EventArgs e)
+        {
+            tb.Text = ud.Value.ToString();
+        }
+
         /// <summary>
         /// C помощью рефлексии выводит все свойства структуры DateTime
         /// </summary>
@@ -21,16 +30,17 @@ namespace CSharp_level1
             foreach (object a in t) result += a.ToString() + "\n";
             MessageBox.Show(result, "Свойства структуры DataTime");
         }
+
+        /// <summary>
+        /// Создайте простую форму на котором свяжите свойство Text элемента TextBox со свойством
+        /// Value элемента NumericUpDown
+        /// </summary>
         static void Task2()
         {
-            Form Form1 = new Form();
-            TextBox tb = new TextBox();
-            tb.Size = TextBox(100, 50);
             Form1.Controls.Add(tb);
-            NumericUpDown ud = new NumericUpDown();
-            tb.Controls.Add(ud);
-            tb.Text = ud.Value.ToString();
-           
+            Form1.Controls.Add(ud);
+            ud.Top = 20;
+            ud.Click += new EventHandler(NumUpDown_Clik);
             Application.Run(Form1);
         }
 
