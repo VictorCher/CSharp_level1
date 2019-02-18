@@ -18,6 +18,12 @@ namespace CSharp_level1
         {
             InitializeComponent();
         }
+        // Обработчик пункта меню About
+        private void miAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Программа по редактированию базы данных игры \"Верю - Не верю\""+
+                "\nВерсия ПО: 1.0\nРазработчик: Чернышов Виктор\n\u00a9 Все права защищены","О программе");
+        }
         // Обработчик пункта меню Exit
         private void miExit_Click(object sender, EventArgs e)
         {
@@ -40,8 +46,15 @@ namespace CSharp_level1
         // Обработчик события изменения значения numericUpDown
         private void nudNumber_ValueChanged(object sender, EventArgs e)
         {
-            tboxQuestion.Text = database[(int)nudNumber.Value - 1].text;
-            cboxTrue.Checked = database[(int)nudNumber.Value - 1].trueFalse;
+            try
+            {
+                tboxQuestion.Text = database[(int)nudNumber.Value - 1].text;
+                cboxTrue.Checked = database[(int)nudNumber.Value - 1].trueFalse;
+            }
+            catch
+            {
+                MessageBox.Show("Попытка доступа к несуществующей записи");
+            }
         }
         // Обработчик кнопки Добавить
         private void btnAdd_Click(object sender, EventArgs e)
@@ -87,6 +100,23 @@ namespace CSharp_level1
         {
             database[(int)nudNumber.Value - 1].text = tboxQuestion.Text;
             database[(int)nudNumber.Value - 1].trueFalse = cboxTrue.Checked;
+        }
+
+        /*private void Form3_MouseDown(object sender, EventArgs e)
+        {
+            base.Capture = false;
+            Message m = Message.Create(base.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
+            this.WndProc(ref m);
+        }*/
+        const int WM_NCHITTEST = 0x84;
+        const int HTCAPTION = 2;
+        const int HTCLIENT = 1;
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            if (m.Msg == WM_NCHITTEST && (int)m.Result == HTCLIENT)
+                m.Result = (IntPtr)HTCAPTION;
         }
     }
 }

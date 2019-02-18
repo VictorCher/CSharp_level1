@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
+using System.Windows.Forms;
 
 namespace CSharp_level1
 {
@@ -47,7 +48,12 @@ namespace CSharp_level1
             XmlSerializer xmlFormat = new XmlSerializer(typeof(List<Question>));
             Stream fStream = new FileStream(fileName, FileMode.Open,
             FileAccess.Read);
-            list = (List<Question>)xmlFormat.Deserialize(fStream);
+            try { list = (List<Question>)xmlFormat.Deserialize(fStream);}    
+            catch
+            {
+                MessageBox.Show("Ошибка базы данных");
+                list.Add(new Question("", false));
+            }
             fStream.Close();
         }
         public int Count

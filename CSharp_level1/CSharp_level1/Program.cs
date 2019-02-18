@@ -43,12 +43,14 @@ namespace CSharp_level1
             ud.Click += new EventHandler(NumUpDown_Clik);
             Application.Run(Form2);
         }
+        
         static void Task3()
         {
             Form3 form = new Form3();
             Application.Run(form);
             
         }
+        [STAThread]
         public static void Main()
         {
             //Task1();
